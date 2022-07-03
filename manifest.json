@@ -1,6 +1,6 @@
 {
-  "name": "NFTIZ",
-  "id": "1047579004421824566",
+  "name": "NFTIZ-multichain",
+  "id": "1125277975767133405",
   "api": "1.0.0",
   "main": "dist/code.js",
   "ui": {"main":"dist/ui.html", "ui_second":"dist/ui_second.html"},
