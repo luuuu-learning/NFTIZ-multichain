@@ -12,6 +12,7 @@ module.exports = (env, argv) => ({
   entry: {
     ui: './src/app/index.tsx',
     ui_second: './src/app/loader.tsx', // The entry point for your UI code
+    ui_third: './src/app/minter.tsx', // The entry point for your UI code
     code: './src/plugin/controller.ts', // The entry point for your plugin code
   },
 
@@ -52,6 +53,12 @@ module.exports = (env, argv) => ({
       filename: 'ui_second.html',
       inlineSource: '.(js)$',
       chunks: ['ui_second'],
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/app/minter.html',
+      filename: 'ui_third.html',
+      inlineSource: '.(js)$',
+      chunks: ['ui_third'],
     }),
     new HtmlWebpackInlineSourcePlugin(),
   ],
