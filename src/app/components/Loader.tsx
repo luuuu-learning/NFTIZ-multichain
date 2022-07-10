@@ -6,22 +6,53 @@ const Loader = ({}) => {
   const [bytes, SetBytes] = useState([]);
   const [name, SetName] = useState("");
   const [desc, SetDesc] = useState("");
+  const [chains, SetChains] = useState([]);
+
+  const [algorandAddress, SetAlgorandAddress] = useState("");
+  const [celoAddress, SetCeloAddress] = useState("");
+  const [harmonyAddress, SetHarmonyAddress] = useState("");
+  const [solanaAddress, SetSolanaAddress] = useState("");
+  const addressMap = {
+    algorand: { value: algorandAddress, setter: SetAlgorandAddress },
+    celo: { value: celoAddress, setter: SetCeloAddress },
+    harmony: { value: harmonyAddress, setter: SetHarmonyAddress },
+    solana: { value: solanaAddress, setter: SetSolanaAddress },
+  };
+
   window.onmessage = (event) => {
-    const { type, bytes, name, desc } = event.data.pluginMessage;
+    const { type, bytes, name, desc, chains } = event.data.pluginMessage;
     console.log(type);
     SetBytes(bytes);
     SetName(name);
     SetDesc(desc);
+    SetChains(chains);
   };
 
   function MyForm() {
-    const [address, SetAddress] = useState("");
-
     const handleSubmit = (event) => {
       event.preventDefault();
-      if (address !== "") {
+      // as long as use entered address on one chain
+      if (
+        algorandAddress !== "" ||
+        celoAddress !== "" ||
+        harmonyAddress !== "" ||
+        solanaAddress !== ""
+      ) {
         parent.postMessage(
-          { pluginMessage: { type: "run_app2", bytes, name, desc, address } },
+          {
+            pluginMessage: {
+              type: "run_app2",
+              bytes,
+              name,
+              desc,
+              addresses: {
+                algorand: algorandAddress,
+                celo: celoAddress,
+                harmony: harmonyAddress,
+                solana: solanaAddress,
+              },
+            },
+          },
           "*"
         );
       }
@@ -31,21 +62,30 @@ const Loader = ({}) => {
       parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
     };
 
+    const collector = () => {
+      const addresses = [];
+      for (const chain of chains) {
+        const chainName = chain.value;
+        addresses.push(
+          <label key={chainName}>
+            {chainName} address*:{" "}
+            <input
+              id="form_input_add"
+              type="text"
+              value={addressMap[chainName].value}
+              onChange={(e) => addressMap[chainName].setter(e.target.value)}
+              required
+            />
+          </label>
+        );
+      }
+      return addresses;
+    };
+
     return (
       <div>
         <form>
-          <div id="form_style">
-            <label>
-              Ethereum address*:{" "}
-              <input
-                id="form_input_add"
-                type="text"
-                value={address}
-                onChange={(e) => SetAddress(e.target.value)}
-                required
-              />
-            </label>
-          </div>
+          <div id="form_style">{chains ? collector() : null}</div>
           <button type="submit" id="mint_button" onClick={handleSubmit}>
             Mint
           </button>

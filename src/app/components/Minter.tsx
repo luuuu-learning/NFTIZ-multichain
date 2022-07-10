@@ -20,8 +20,9 @@ const Minter = ({}) => {
   }
 
   window.onmessage = (event) => {
-    const { type, bytes, name, desc, address } = event.data.pluginMessage;
-
+    const { type, bytes, name, desc, addresses } = event.data.pluginMessage;
+    const address = addresses.algorand;
+    console.log(addresses);
     if (type === "run") {
       async function main() {
         var url = "https://api.nft.storage/upload";

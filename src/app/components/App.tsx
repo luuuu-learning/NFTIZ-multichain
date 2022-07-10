@@ -13,7 +13,7 @@ const App = ({}) => {
 
     const handleSubmit = (event) => {
       event.preventDefault();
-      if (name !== "" && desc !== "") {
+      if (name !== "" && desc !== "" && selectChains.length > 0) {
         parent.postMessage(
           { pluginMessage: { type: "run_app", name, desc, selectChains } },
           "*"

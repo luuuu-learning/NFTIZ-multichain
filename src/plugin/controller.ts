@@ -37,7 +37,7 @@ figma.ui.onmessage = (msg) => {
         bytes: msg.bytes,
         name: msg.name,
         desc: msg.desc,
-        address: msg.address,
+        addresses: msg.addresses,
       });
     }
     mint();
