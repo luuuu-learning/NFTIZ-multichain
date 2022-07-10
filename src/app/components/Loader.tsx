@@ -62,10 +62,7 @@ const Loader = ({}) => {
       <div>
         <div className="v2_25"></div>
       </div>
-      <p className="v2_26">
-        To mint a NFT, you need first to select a Frame and then fulfil
-        information needed
-      </p>
+      <p className="v2_26">Please enter your addresses on selected chains</p>
       <MyForm />
     </div>
   );
