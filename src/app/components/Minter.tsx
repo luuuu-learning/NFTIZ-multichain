@@ -33,9 +33,7 @@ const Minter = ({}) => {
   });
   const [solana, setSolana] = useState({
     name: "solana",
-    explorerPrefix: isTestnet
-      ? "https://explorer.solana.com/tx/{}?cluster=testnet"
-      : "https://explorer.solana.com/tx/",
+    explorerPrefix: "https://explorer.solana.com/tx/",
   });
 
   const [mintResult, setMintResult] = useState([]);
@@ -137,7 +135,10 @@ const Minter = ({}) => {
 
       function generateResult(chain, txId, error) {
         if (txId) {
-          const explorerUrl = chain.explorerPrefix + txId;
+          let explorerUrl = chain.explorerPrefix + txId;
+          if (isTestnet && chain.name === "solana") {
+            explorerUrl = explorerUrl + "?cluster=testnet";
+          }
           return (
             <button className="result_etherscan" formAction={explorerUrl}>
               📊 See your transaction on {chain.name} explorer
