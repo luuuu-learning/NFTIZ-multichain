@@ -137,8 +137,9 @@ const Minter = ({}) => {
         if (txId) {
           let explorerUrl = chain.explorerPrefix + txId;
           if (isTestnet && chain.name === "solana") {
-            explorerUrl = explorerUrl + "?cluster=testnet";
+            explorerUrl = explorerUrl + "?cluster=devnet";
           }
+          console.log(explorerUrl);
           return (
             <button className="result_etherscan" formAction={explorerUrl}>
               📊 See your transaction on {chain.name} explorer
