@@ -1,5 +1,5 @@
 figma.showUI(__uiFiles__.main);
-figma.ui.resize(330, 450);
+figma.ui.resize(300, 550);
 
 figma.ui.onmessage = (msg) => {
   if (msg.type === "run_app") {
@@ -14,7 +14,7 @@ figma.ui.onmessage = (msg) => {
           const bytes = await node.exportAsync();
 
           figma.showUI(__uiFiles__.ui_second);
-          figma.ui.resize(330, 450);
+          figma.ui.resize(300, 550);
           // This is how figma responds back to the ui
           figma.ui.postMessage({
             type: "run",
@@ -30,7 +30,7 @@ figma.ui.onmessage = (msg) => {
   } else if (msg.type === "run_app2") {
     async function mint() {
       figma.showUI(__uiFiles__.ui_third);
-      figma.ui.resize(330, 450);
+      figma.ui.resize(300, 550);
       // This is how figma responds back to the ui
       figma.ui.postMessage({
         type: "run",
