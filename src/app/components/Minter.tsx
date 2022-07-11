@@ -38,9 +38,7 @@ const Minter = ({}) => {
       : "https://explorer.solana.com/tx/",
   });
 
-  const [finishedLoadingCount, SetfinishedLoadingCount] = useState(0);
-
-  const enabledChains = [];
+  const [mintResult, setMintResult] = useState([]);
 
   function Spinner() {
     return (
@@ -54,8 +52,7 @@ const Minter = ({}) => {
   window.onmessage = (event) => {
     const { type, bytes, name, desc, addresses } = event.data.pluginMessage;
     if (type === "run") {
-      // store image on ipfs
-      async function main() {
+      async function uploadImage() {
         var url = "https://api-eu1.tatum.io/v3/ipfs";
         const formData = new FormData();
         formData.append("file", new Blob([bytes]));
@@ -82,7 +79,7 @@ const Minter = ({}) => {
         return result;
       }
 
-      async function upload_meta(ipfs_url) {
+      async function uploadMeta(ipfs_url) {
         var url = "https://api-eu1.tatum.io/v3/ipfs";
         const data_up = JSON.stringify({
           name: name,
@@ -119,33 +116,51 @@ const Minter = ({}) => {
       async function callTatum(data) {
         let txId = "";
         let error = "";
-        await fetch("https://api-eu1.tatum.io/v3/nft/mint", {
+        const response = await fetch("https://api-eu1.tatum.io/v3/nft/mint", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "x-api-key": "6ee58b01-a9c1-44f3-a768-2e4998b2d9de",
           },
           body: data,
-        })
-          .then((response) => {
-            response.json().then((json) => {
-              if (response.status !== 200) {
-                error = json.message;
-              } else {
-                txId = json.txId;
-              }
-            });
-          })
-          .catch((err) => {
-            throw err;
-          });
+        });
+
+        const json = await response.json();
+
+        if (response.status !== 200) {
+          error = json.message;
+        } else {
+          txId = json.txId;
+        }
         return { txId, error };
       }
 
-      async function mint_with_meta(metadata, ipfs_url) {
+      function generateResult(chain, txId, error) {
+        if (txId) {
+          const explorerUrl = chain.explorerPrefix + txId;
+          return (
+            <button className="result_etherscan" formAction={explorerUrl}>
+              📊 See your transaction on {chain.name} explorer
+            </button>
+          );
+        } else if (error) {
+          return (
+            <span id="result_error">
+              Error mint NFT on {chain.name}: {error}
+            </span>
+          );
+        } else {
+          return (
+            <span id="result_error">
+              Error mint NFT on {chain.name}: unknown error
+            </span>
+          );
+        }
+      }
+
+      async function mintWithMeta(metadata, ipfs_url) {
         // const mintData = []
         if (addresses.algorand !== "") {
-          enabledChains.push(algorand);
           const { txId, error } = await callTatum(
             JSON.stringify({
               chain: "ALGO",
@@ -154,10 +169,11 @@ const Minter = ({}) => {
               name: name,
             })
           );
-          setAlgorand((prev) => ({ ...prev, txId, error }));
+          setAlgorand((prev) => ({ ...prev, txId: txId, error: error }));
+          const result = generateResult(algorand, txId, error);
+          setMintResult((prev) => [...prev, result]);
         }
         if (addresses.celo !== "") {
-          enabledChains.push(celo);
           const { txId, error } = await callTatum(
             JSON.stringify({
               chain: "CELO",
@@ -166,10 +182,11 @@ const Minter = ({}) => {
               feeCurrency: "CELO",
             })
           );
-          setCelo((prev) => ({ ...prev, txId, error }));
+          setCelo((prev) => ({ ...prev, txId: txId, error: error }));
+          const result = generateResult(celo, txId, error);
+          setMintResult((prev) => [...prev, result]);
         }
         if (addresses.harmony !== "") {
-          enabledChains.push(harmony);
           const { txId, error } = await callTatum(
             JSON.stringify({
               chain: "ONE",
@@ -177,10 +194,11 @@ const Minter = ({}) => {
               url: metadata,
             })
           );
-          setHarmony((prev) => ({ ...prev, txId, error }));
+          setHarmony((prev) => ({ ...prev, txId: txId, error: error }));
+          const result = generateResult(harmony, txId, error);
+          setMintResult((prev) => [...prev, result]);
         }
         if (addresses.solana !== "") {
-          enabledChains.push(solana);
           const { txId, error } = await callTatum(
             JSON.stringify({
               chain: "SOL",
@@ -194,64 +212,23 @@ const Minter = ({}) => {
               },
             })
           );
-          setSolana((prev) => ({ ...prev, txId, error }));
+          setSolana((prev) => ({ ...prev, txId: txId, error: error }));
+          const result = generateResult(solana, txId, error);
+          setMintResult((prev) => [...prev, result]);
         }
-
         SetIsLoading(false);
       }
 
-      //   function fetch_id(tx_hash) {
-      //     fetch(
-      //       "https://api.nftport.xyz/v0/mints/" + tx_hash + "?chain=polygon",
-      //       {
-      //         method: "GET",
-      //         headers: {
-      //           "Content-Type": "application/json",
-      //           Authorization: process.env.NFTPORT_KEY,
-      //         },
-      //       }
-      //     )
-      //       .then((response) => {
-      //         return response.json().then(function (json) {
-      //           console.log(json.response);
-      //           console.log(json.token_id);
-      //           setOSLink(
-      //             "https://opensea.io/assets/matic/0x7fc96cec611171f27c233f70128d04dd66c7a8c8/" +
-      //               json.token_id
-      //           );
-      //         });
-      //       })
-      //       .catch((err) => {
-      //         console.error(err);
-      //       });
-      //   }
-
       async function run() {
-        const ipfs_url = await main();
-        const meta_url = await upload_meta(ipfs_url);
-        await mint_with_meta(meta_url, ipfs_url);
-        // console.log(tx_hash);
+        const ipfs_url = await uploadImage();
+        const meta_url = await uploadMeta(ipfs_url);
+        await mintWithMeta(meta_url, ipfs_url);
         // setTimeout(() => {
         //   fetch_id(tx_hash);
         // }, 15000);
       }
       run();
     }
-  };
-
-  const results = () => {
-    return enabledChains.map((enabledChain) => {
-      const explorerUrl = enabledChain.explorerPrefix + enabledChain.txId;
-      if (enabledChain.txId) {
-        <button className="result_etherscan" formAction={explorerUrl}>
-          📊 See your transaction on {enabledChain.name} explorer
-        </button>;
-      } else {
-        <span id="result_error">
-          Error mint NFT on {enabledChain.name}: {enabledChain.error}
-        </span>;
-      }
-    });
   };
 
   function RenderSuccess() {
@@ -268,10 +245,12 @@ const Minter = ({}) => {
           </li>
           <li key="uniqueId2">
             <form target="_blank">
-              {/* <button id="result_etherscan" formAction={externalUrl}>
+              {mintResult}
+              {/* {/* <button id="result_etherscan" formAction={externalUrl}>
                 📊 See your transaction on polygonscan
               </button> */}
-              {results()}
+              {/* {results()}
+              {results.length} */}
             </form>
           </li>
         </ul>
@@ -279,18 +258,18 @@ const Minter = ({}) => {
     );
   }
 
-  function RenderError() {
-    return (
-      <div>
-        <div>
-          <h3 className="v2_26">Oups it seems that it's not working... </h3>
-        </div>
-        <div>
-          <span id="result_error">Error: {errorType}</span>
-        </div>
-      </div>
-    );
-  }
+  //   function RenderError() {
+  //     return (
+  //       <div>
+  //         <div>
+  //           <h3 className="v2_26">Oups it seems that it's not working... </h3>
+  //         </div>
+  //         <div>
+  //           <span id="result_error">Error: {errorType}</span>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
 
   return (
     <div>

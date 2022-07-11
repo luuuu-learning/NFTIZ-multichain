@@ -21,11 +21,12 @@ const Loader = ({}) => {
 
   window.onmessage = (event) => {
     const { type, bytes, name, desc, chains } = event.data.pluginMessage;
-    console.log(type);
-    SetBytes(bytes);
-    SetName(name);
-    SetDesc(desc);
-    SetChains(chains);
+    if (type === "run") {
+      SetBytes(bytes);
+      SetName(name);
+      SetDesc(desc);
+      SetChains(chains);
+    }
   };
 
   function MyForm() {
