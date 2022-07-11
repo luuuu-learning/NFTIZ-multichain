@@ -1,3 +1,4 @@
+// import fetch, { FormData, File, fileFrom } from 'node-fetch'
 import * as React from "react";
 import { useState } from "react";
 import "../styles/ui.css";
@@ -21,30 +22,39 @@ const Minter = ({}) => {
 
   window.onmessage = (event) => {
     const { type, bytes, name, desc, addresses } = event.data.pluginMessage;
-    const address = addresses.algorand;
+    const address = addresses.celo;
     console.log(addresses);
     if (type === "run") {
+      // store image on ipfs
       async function main() {
-        var url = "https://api.nft.storage/upload";
-        var data = new Blob([bytes], { type: "image/png" });
+        // var url = "https://api.nft.storage/upload";
+        var url = "https://api-eu1.tatum.io/v3/ipfs";
+        // var data = new Blob([bytes], { type: "image/png" });
+        const formData = new FormData();
+        // formData.set('file-upload', abc, 'image.png')
+
+        // const form = new FormData();
+        formData.append("file", new Blob([bytes]));
 
         const result = await fetch(url, {
           method: "POST",
           headers: {
-            Authorization: process.env.NFT_STORAGE_KEY,
-            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization: process.env.NFT_STORAGE_KEY,
+            // "Content-Type": "application/x-www-form-urlencoded",
+            // "content-type": "multipart/form-data",
+            "x-api-key": "6ee58b01-a9c1-44f3-a768-2e4998b2d9de",
           },
-          body: data,
+          body: formData,
         }).then((response) => {
           return response
             .json()
             .then(function (json) {
-              console.log(
-                "IPFS url: ",
-                "https://ipfs.io/ipfs/" + json.value.cid.toString()
-              );
-              SetIpfsUrl("https://ipfs.io/ipfs/" + json.value.cid.toString());
-              return "https://ipfs.io/ipfs/" + json.value.cid.toString();
+              const ipfsHash = json.ipfsHash;
+              console.log("IPFS url: ", "https://ipfs.io/ipfs/" + ipfsHash);
+              //   SetIpfsUrl("https://ipfs.io/ipfs/" + ipfsHash);
+              //   return "https://ipfs.io/ipfs/" + ipfsHash;
+              SetIpfsUrl("ipfs://" + ipfsHash);
+              return "ipfs://" + ipfsHash;
             })
             .catch((error) => {
               throw error;
@@ -54,66 +64,89 @@ const Minter = ({}) => {
       }
 
       async function upload_meta(name, desc, ipfs_url) {
-        var url = "https://api.nftport.xyz/v0/metadata";
+        var url = "https://api-eu1.tatum.io/v3/ipfs";
         const data_up = JSON.stringify({
-          chain: "polygon",
           name: name,
           description: desc,
-          file_url: ipfs_url,
+          image: ipfs_url,
         });
+        const formData = new FormData();
+        formData.append("file", new Blob([data_up]));
 
         const result_up = await fetch(url, {
           method: "POST",
           headers: {
-            Authorization: process.env.NFTPORT_KEY,
-            "Content-Type": "application/json",
+            // Authorization: process.env.NFTPORT_KEY,
+            // "Content-Type": "application/json",
+            "x-api-key": "6ee58b01-a9c1-44f3-a768-2e4998b2d9de",
           },
-          body: data_up,
+          body: formData,
         }).then((response) => {
-          return response.json().then(function (json) {
-            console.log("Metadata URL:", json.metadata_uri);
-            return json.metadata_uri;
-          });
+          return response
+            .json()
+            .then(function (json) {
+              const ipfsHash = json.ipfsHash;
+              console.log(
+                "metadata IPFS url: ",
+                "https://ipfs.io/ipfs/" + ipfsHash
+              );
+              return "ipfs://" + ipfsHash;
+            })
+            .catch((error) => {
+              throw error;
+            });
         });
         return result_up;
       }
 
       async function mint_with_meta(metadata, address) {
         const data = JSON.stringify({
-          chain: "polygon",
-          contract_address: "0x7fc96cec611171f27c233f70128d04dd66c7a8c8",
-          metadata_uri: metadata,
-          mint_to_address: address,
+          chain: "CELO",
+          to: address,
+          url: metadata,
+          feeCurrency: "CELO",
         });
 
         const result_mint = await fetch(
-          "https://api.nftport.xyz/v0/mints/customizable",
+          "https://api-eu1.tatum.io/v3/nft/mint",
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: process.env.NFTPORT_KEY,
+              "x-api-key": "6ee58b01-a9c1-44f3-a768-2e4998b2d9de",
             },
             body: data,
           }
         )
           .then((response) => {
-            return response.json().then(function (json) {
-              if (json.response === "OK") {
-                console.log("NFT minted!");
+            if (response.status !== 200) {
+              SetIsLoading(false);
+              SetIsError(true);
+              SetErrorType(response.json.toString());
+            } else {
+              return response.json().then((json) => {
+                console.log("NFT minted! " + json.txId);
                 SetIsLoading(false);
-                console.log("Status:", json.response);
-                console.log("Transaction hash:", json.transaction_hash);
-                console.log("Transaction url:", json.transaction_external_url);
-                SetExternalUrl(json.transaction_external_url);
-                console.log(response);
-                return json.transaction_hash;
-              } else if (json.response === "NOK") {
-                SetIsLoading(false);
-                SetIsError(true);
-                SetErrorType(json.error);
-              }
-            });
+                SetExternalUrl(json.txId);
+                return json.txId;
+              });
+            }
+            // return response.json().then(function (json) {
+            //   if (json.response === "OK") {
+            //     console.log("NFT minted!");
+            //     SetIsLoading(false);
+            //     console.log("Status:", json.response);
+            //     console.log("Transaction hash:", json.transaction_hash);
+            //     console.log("Transaction url:", json.transaction_external_url);
+            //     SetExternalUrl(json.transaction_external_url);
+            //     console.log(response);
+            //     return json.transaction_hash;
+            //   } else if (json.response === "NOK") {
+            //     SetIsLoading(false);
+            //     SetIsError(true);
+            //     SetErrorType(json.error);
+            //   }
+            // });
           })
           .catch((err) => {
             throw err;
