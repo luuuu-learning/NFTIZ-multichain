@@ -3,7 +3,11 @@ import * as React from "react";
 import { useState } from "react";
 import "../styles/ui.css";
 
-const isTestnet = true;
+const isTestnet = process.env.IS_TESTNET;
+const tatumApiKey = process.env.TATUM_API_KEY;
+
+console.log(isTestnet);
+console.log(tatumApiKey);
 
 const Minter = ({}) => {
   const [ipfsUrl, SetIpfsUrl] = useState("");
@@ -58,7 +62,7 @@ const Minter = ({}) => {
         const result = await fetch(url, {
           method: "POST",
           headers: {
-            "x-api-key": "6ee58b01-a9c1-44f3-a768-2e4998b2d9de",
+            "x-api-key": tatumApiKey,
           },
           body: formData,
         }).then((response) => {
@@ -90,7 +94,7 @@ const Minter = ({}) => {
         const result_up = await fetch(url, {
           method: "POST",
           headers: {
-            "x-api-key": "6ee58b01-a9c1-44f3-a768-2e4998b2d9de",
+            "x-api-key": tatumApiKey,
           },
           body: formData,
         }).then((response) => {
@@ -118,7 +122,7 @@ const Minter = ({}) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-api-key": "6ee58b01-a9c1-44f3-a768-2e4998b2d9de",
+            "x-api-key": tatumApiKey,
           },
           body: data,
         });
