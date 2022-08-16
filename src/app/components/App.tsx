@@ -6,7 +6,7 @@ import "../styles/ui.css";
 declare function require(path: string): any;
 
 const App = ({}) => {
-  function MyForm() {
+  const MyForm = () => {
     const [name, SetName] = useState("");
     const [desc, SetDesc] = useState("");
     const [selectChains, setSelectChains] = useState([]);
@@ -15,7 +15,14 @@ const App = ({}) => {
       event.preventDefault();
       if (name !== "" && desc !== "" && selectChains.length > 0) {
         parent.postMessage(
-          { pluginMessage: { type: "run_app", name, desc, selectChains } },
+          {
+            pluginMessage: {
+              type: "display_address_collecting_page",
+              name,
+              desc,
+              selectChains,
+            },
+          },
           "*"
         );
       }
@@ -82,7 +89,7 @@ const App = ({}) => {
         </form>
       </div>
     );
-  }
+  };
 
   return (
     <div>

@@ -2,8 +2,8 @@ figma.showUI(__uiFiles__.main);
 figma.ui.resize(300, 550);
 
 figma.ui.onmessage = (msg) => {
-  if (msg.type === "run_app") {
-    async function getBytes() {
+  if (msg.type === "display_address_collecting_page") {
+    const getBytes = async () => {
       if (figma.currentPage.selection.length !== 1) {
         figma.notify("You need to select only 1 frame");
       } else {
@@ -25,10 +25,10 @@ figma.ui.onmessage = (msg) => {
           });
         }
       }
-    }
+    };
     getBytes();
-  } else if (msg.type === "run_app2") {
-    async function mint() {
+  } else if (msg.type === "display_minting_page") {
+    const mint = async () => {
       figma.showUI(__uiFiles__.ui_third);
       figma.ui.resize(300, 550);
       // This is how figma responds back to the ui
@@ -39,7 +39,7 @@ figma.ui.onmessage = (msg) => {
         desc: msg.desc,
         addresses: msg.addresses,
       });
-    }
+    };
     mint();
   } else figma.closePlugin();
 };

@@ -1,185 +1,257 @@
 body {
-    font: 12px sans-serif;
-    text-align: center;
-    margin: 20px;
-    background: rgba(0,0,0,1);
-    opacity: 1;
-    position: relative;
-    top: 0px;
-    left: 0px;
-    overflow: hidden;
+  font: 12px sans-serif;
+  text-align: center;
+  margin: 20px;
+  background: rgba(0, 0, 0, 1);
+  opacity: 1;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  overflow: hidden;
 }
 .v2_26 {
-    color: rgba(255,255,255,1);
-    font-family: "Rhodium";
-    font-weight: Regular;
-    font-size: 14px;
-    opacity: 1;
-    text-align: center;
+  color: rgba(255, 255, 255, 1);
+  font-family: "Rhodium";
+  font-weight: Regular;
+  font-size: 14px;
+  opacity: 1;
+  text-align: center;
 }
 .v2_28 {
-    color: rgba(95,94,94,1);
-    font-family: "Rhodium";
-    font-weight: Regular;
-    font-size: 12px;
-    opacity: 1;
-    text-align: center;
+  color: rgba(95, 94, 94, 1);
+  font-family: "Rhodium";
+  font-weight: Regular;
+  font-size: 12px;
+  opacity: 1;
+  text-align: center;
 }
 .render_form {
-    position:fixed
+  position: fixed;
 }
 .fullclick {
-    margin: 1em 0;
-    padding: 0;
+  margin: 1em 0;
+  padding: 0;
 }
 #form_input_name {
-    background: rgba(255,250,250,0.8999999761581421);
-    opacity: 1;
-    border: 1px solid rgba(255,255,255,1);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
-    overflow: hidden;
-    box-shadow: 1px 1px 5px #00FF00, inset 0px 1px 4px rgba(0, 0, 0, 0.25);
+  background: rgba(255, 250, 250, 0.8999999761581421);
+  opacity: 1;
+  border: 1px solid rgba(255, 255, 255, 1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
+  overflow: hidden;
+  box-shadow: 1px 1px 5px #00ff00, inset 0px 1px 4px rgba(0, 0, 0, 0.25);
 }
 #form_input_desc {
-    background: rgba(255,250,250,0.8999999761581421);
-    opacity: 1;
-    width: 100%;
-    resize: none;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 1px solid rgba(255,255,255,1);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
-    overflow: hidden;
-    box-shadow: 1px 1px 5px #0000FF, inset 0px 2px 4px rgba(0, 0, 0, 0.25);
-    overflow: auto;
-    outline: none;
-    padding-left: 5px;
-    padding-top: 5px;
+  background: rgba(255, 250, 250, 0.8999999761581421);
+  opacity: 1;
+  width: 100%;
+  resize: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255, 255, 255, 1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
+  overflow: hidden;
+  box-shadow: 1px 1px 5px #0000ff, inset 0px 2px 4px rgba(0, 0, 0, 0.25);
+  overflow: auto;
+  outline: none;
+  padding-left: 5px;
+  padding-top: 5px;
 }
 #form_input_add {
-    background: rgba(255,250,250,0.8999999761581421);
-    opacity: 1;
-    border: 1px solid rgba(255,255,255,1);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
-    overflow: hidden;
-    box-shadow: 1px 1px 5px #FF0000, inset 0px 2px 4px rgba(0, 0, 0, 0.25);
+  background: rgba(255, 250, 250, 0.8999999761581421);
+  opacity: 1;
+  border: 1px solid rgba(255, 255, 255, 1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
+  overflow: hidden;
+  box-shadow: 1px 1px 5px #ff0000, inset 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 #result_ipfs {
-    background: rgba(255,250,250,0.8999999761581421);
-    opacity: 1;
-    width: 100%;
-    height: 70px;
-    margin-top: 5px;
-    margin-left:auto;
-    text-align: left;
-    font-family: "Rhodium";
-    font-weight: Regular;
-    margin-bottom: 5px;
-    border: 1px solid rgba(255,255,255,1);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
-    box-shadow: 1px 1px 5px #00FF00;
-    cursor:pointer;
+  background: rgba(255, 250, 250, 0.8999999761581421);
+  opacity: 1;
+  width: 100%;
+  height: 70px;
+  margin-top: 5px;
+  margin-left: auto;
+  text-align: left;
+  font-family: "Rhodium";
+  font-weight: Regular;
+  margin-bottom: 5px;
+  border: 1px solid rgba(255, 255, 255, 1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
+  box-shadow: 1px 1px 5px #00ff00;
+  cursor: pointer;
 }
 #result_ipfs:hover {
-    box-shadow: 2px 2px 9px #00FF00;
-    border: 1px solid #00FF00;
+  box-shadow: 2px 2px 9px #00ff00;
+  border: 1px solid #00ff00;
 }
-#result_etherscan {
-    background: rgba(255,250,250,0.8999999761581421);
-    opacity: 1;
-    width: 100%;
-    height: 70px;
-    margin-top: 5px;
-    margin-left:auto;
-    text-align: left;
-    font-family: "Rhodium";
-    font-weight: Regular;
-    margin-bottom: 5px;
-    border: 1px solid rgba(255,255,255,1);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
-    box-shadow: 1px 1px 5px #0000FF;
-    cursor:pointer;
+#algorand {
+  background: rgba(255, 250, 250, 0.8999999761581421);
+  opacity: 1;
+  width: 100%;
+  height: 70px;
+  margin-top: 5px;
+  margin-left: auto;
+  text-align: left;
+  font-family: "Rhodium";
+  font-weight: Regular;
+  margin-bottom: 5px;
+  border: 1px solid rgba(255, 255, 255, 1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
+  box-shadow: 1px 1px 5px #0000ff;
+  cursor: pointer;
 }
-#result_etherscan:hover {
-    box-shadow: 2px 2px 9px #0000FF;
-    border: 1px solid #0000FF;
+#celo {
+  background: rgba(255, 250, 250, 0.8999999761581421);
+  opacity: 1;
+  width: 100%;
+  height: 70px;
+  margin-top: 5px;
+  margin-left: auto;
+  text-align: left;
+  font-family: "Rhodium";
+  font-weight: Regular;
+  margin-bottom: 5px;
+  border: 1px solid rgba(255, 255, 255, 1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
+  box-shadow: 1px 1px 5px #0000ff;
+  cursor: pointer;
+}
+#harmony {
+  background: rgba(255, 250, 250, 0.8999999761581421);
+  opacity: 1;
+  width: 100%;
+  height: 70px;
+  margin-top: 5px;
+  margin-left: auto;
+  text-align: left;
+  font-family: "Rhodium";
+  font-weight: Regular;
+  margin-bottom: 5px;
+  border: 1px solid rgba(255, 255, 255, 1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
+  box-shadow: 1px 1px 5px #0000ff;
+  cursor: pointer;
+}
+#solana {
+  background: rgba(255, 250, 250, 0.8999999761581421);
+  opacity: 1;
+  width: 100%;
+  height: 70px;
+  margin-top: 5px;
+  margin-left: auto;
+  text-align: left;
+  font-family: "Rhodium";
+  font-weight: Regular;
+  margin-bottom: 5px;
+  border: 1px solid rgba(255, 255, 255, 1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
+  box-shadow: 1px 1px 5px #0000ff;
+  cursor: pointer;
+}
+#solana:hover {
+  box-shadow: 2px 2px 9px #0000ff;
+  border: 1px solid #0000ff;
+}
+#celo:hover {
+  box-shadow: 2px 2px 9px #0000ff;
+  border: 1px solid #0000ff;
+}
+#algorand:hover {
+  box-shadow: 2px 2px 9px #0000ff;
+  border: 1px solid #0000ff;
+}
+#harmony:hover {
+  box-shadow: 2px 2px 9px #0000ff;
+  border: 1px solid #0000ff;
 }
 #result_os {
-    background: rgba(255,250,250,0.8999999761581421);
-    opacity: 1;
-    width: 100%;
-    height: 70px;
-    margin-top: 5px;
-    margin-left:auto;
-    text-align: left;
-    font-family: "Rhodium";
-    font-weight: Regular;
-    margin-bottom: 5px;
-    border: 1px solid rgba(255,255,255,1);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
-    box-shadow: 1px 1px 5px #FF0000;
-    cursor:pointer;
+  background: rgba(255, 250, 250, 0.8999999761581421);
+  opacity: 1;
+  width: 100%;
+  height: 70px;
+  margin-top: 5px;
+  margin-left: auto;
+  text-align: left;
+  font-family: "Rhodium";
+  font-weight: Regular;
+  margin-bottom: 5px;
+  border: 1px solid rgba(255, 255, 255, 1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
+  box-shadow: 1px 1px 5px #ff0000;
+  cursor: pointer;
 }
 #result_error {
-    background: rgba(255,250,250,0.8999999761581421);
-    color: #FF0000;
-    opacity: 1;
-    width: 100%;
-    height: 70px;
-    margin-top: 15px;
-    margin-left:auto;
-    text-align: left;
-    font-family: "Rhodium";
-    font-weight: Regular;
-    margin-bottom: 15px;
-    border: 1px solid rgba(255,255,255,1);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
-    box-shadow: 1px 1px 5px #FF0000;
+  background: rgba(255, 250, 250, 0.8999999761581421);
+  color: #ff0000;
+  opacity: 1;
+  width: 100%;
+  height: 70px;
+  margin-top: 15px;
+  margin-left: auto;
+  text-align: left;
+  font-family: "Rhodium";
+  font-weight: Regular;
+  margin-bottom: 15px;
+  border: 1px solid rgba(255, 255, 255, 1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 1px 1px 5px rgba(0, 1, 0, 1);
+  box-shadow: 1px 1px 5px #ff0000;
 }
 #result_os:hover {
-    box-shadow: 2px 2px 9px #FF0000;
-    border: 1px solid #FF0000;
+  box-shadow: 2px 2px 9px #ff0000;
+  border: 1px solid #ff0000;
 }
 .v2_25 {
-    width: 133px;
-    height: 36px;
-    background: url("../assets/plugin_banner.png");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    opacity: 1;
-    margin:0 auto;
-  }
+  width: 133px;
+  height: 36px;
+  background: url("../assets/plugin_banner.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  opacity: 1;
+  margin: 0 auto;
+}
 .v2_12 {
-  background: rgba(0,0,0,1);
+  background: rgba(0, 0, 0, 1);
   opacity: 1;
   position: fixed;
   top: 0px;
@@ -187,164 +259,185 @@ body {
   overflow: hidden;
 }
 button {
-    border-radius: 5px;
-    background: white;
-    color: black;
-    border: none;
-    padding: 8px 15px;
-    margin: 0 5px;
-    box-shadow: inset 0 0 0 1px black;
-    outline: none;
+  border-radius: 5px;
+  background: white;
+  color: black;
+  border: none;
+  padding: 8px 15px;
+  margin: 0 5px;
+  box-shadow: inset 0 0 0 1px black;
+  outline: none;
 }
 #mint_button {
-    border-radius: 10px;
-    background: #3C2875;
-    color: white;
-    font-family: "Rhodium";
-    font-weight: Regular;
-    border: none;
-    padding: 8px 15px;
-    margin: 0 5px;
-    box-shadow: inset 0 0 0 1px black;
-    outline: none;
-    margin-top: 10px;
-    width: 135px;
-    height: 40px;
-    cursor:pointer;
+  border-radius: 10px;
+  background: #3c2875;
+  color: white;
+  font-family: "Rhodium";
+  font-weight: Regular;
+  border: none;
+  padding: 8px 15px;
+  margin: 0 5px;
+  box-shadow: inset 0 0 0 1px black;
+  outline: none;
+  margin-top: 10px;
+  width: 135px;
+  height: 40px;
+  cursor: pointer;
 }
 #close_button {
-    border-radius: 10px;
-    background: #2B2A2A;
-    color: white;
-    font-family: "Rhodium";
-    font-weight: Regular;
-    border: none;
-    padding: 8px 15px;
-    margin: 0 5px;
-    box-shadow: inset 0 0 0 1px black;
-    outline: none;
-    margin-top: 10px;
-    width: 135px;
-    height: 40px;
-    cursor:pointer;
+  border-radius: 10px;
+  background: #2b2a2a;
+  color: white;
+  font-family: "Rhodium";
+  font-weight: Regular;
+  border: none;
+  padding: 8px 15px;
+  margin: 0 5px;
+  box-shadow: inset 0 0 0 1px black;
+  outline: none;
+  margin-top: 10px;
+  width: 135px;
+  height: 40px;
+  cursor: pointer;
 }
 #create {
-    box-shadow: none;
-    background: #18a0fb;
-    color: white;
+  box-shadow: none;
+  background: #18a0fb;
+  color: white;
 }
 input {
-    border: 1px;
-    border-radius: 5%;
-    outline: none;
-    padding: 8px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 100%;
+  border: 1px;
+  border-radius: 5%;
+  outline: none;
+  padding: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
 }
 #form_input {
-    border: solid 1px;
-    border-color: black;
-    border-radius: 10px;
-    outline: none;
-    padding: 8px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  border: solid 1px;
+  border-color: black;
+  border-radius: 10px;
+  outline: none;
+  padding: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 #form_style {
-    text-align: left;
-    color: grey;
-    font-family: "Rhodium";
-    font-weight: Regular;
+  text-align: left;
+  color: grey;
+  font-family: "Rhodium";
+  font-weight: Regular;
 }
 label {
-    display: inline;
-    text-align: left;
-  }​
-input:hover {
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  display: inline;
+  text-align: left;
+}
+​ input:hover {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
 }
 button:focus {
-    box-shadow: inset 0 0 0 2px #18a0fb;
+  box-shadow: inset 0 0 0 2px #18a0fb;
 }
 #create:focus {
-    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.3);
 }
 input:focus {
-    box-shadow: inset 0 0 0 2px #18a0fb;
+  box-shadow: inset 0 0 0 2px #18a0fb;
 }
 
 @font-face {
-    font-family: "Rhodium";
-    src: url(../assets/RhodiumLibre-Regular.ttf) format('truetype');
+  font-family: "Rhodium";
+  src: url(../assets/RhodiumLibre-Regular.ttf) format("truetype");
 }
 
-
 @-webkit-keyframes spin {
-    from {-webkit-transform: rotate(0deg); -moz-transform: rotate(0deg);}
-    to {-webkit-transform: rotate(-360deg); -moz-transform: rotate(-360deg);}
+  from {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(-360deg);
+    -moz-transform: rotate(-360deg);
+  }
 }
 
 @keyframes spin {
-    from {-webkit-transform: rotate(0deg); -moz-transform: rotate(0deg);}
-    to {-webkit-transform: rotate(-360deg); -moz-transform: rotate(-360deg);}
+  from {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(-360deg);
+    -moz-transform: rotate(-360deg);
+  }
 }
 
 @-webkit-keyframes spin2 {
-    from {-webkit-transform: rotate(0deg); -moz-transform: rotate(0deg);}
-    to {-webkit-transform: rotate(720deg); -moz-transform: rotate(720deg);}
+  from {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(720deg);
+    -moz-transform: rotate(720deg);
+  }
 }
 
 @keyframes spin2 {
-  from {-webkit-transform: rotate(0deg); -moz-transform: rotate(0deg);}
-  to {-webkit-transform: rotate(720deg); -moz-transform: rotate(720deg);}
+  from {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(720deg);
+    -moz-transform: rotate(720deg);
+  }
 }
-
-
 
 /* Spinner */
 #spinner {
-    border:2px solid #FFFBFB;
-    border-top:2px solid transparent;
-    border-bottom:2px solid transparent;
-    border-style:solid;
-    position:relative;
-    border-radius: 50%;
-    width: 90px;
-    height: 90px;
-    margin-left: auto;
-    margin-right: auto;
-    -webkit-animation: spin 1s infinite linear;
-    -moz-animation: spin 1s infinite linear;
-    -o-animation: spin 1s infinite linear;
-    animation: spin 1s infinite linear;
+  border: 2px solid #fffbfb;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  border-style: solid;
+  position: relative;
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  margin-left: auto;
+  margin-right: auto;
+  -webkit-animation: spin 1s infinite linear;
+  -moz-animation: spin 1s infinite linear;
+  -o-animation: spin 1s infinite linear;
+  animation: spin 1s infinite linear;
 }
 
 #spinner:after {
-    content: "";
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border: 2px solid #FFFBFB;
-    border-top: 2px solid transparent;
-    border-bottom: 2px solid transparent;
-    border-style: solid;
-    margin: 0 auto;
-    margin: 28px -17px 85px;
-    border-radius: 50%;
-    -webkit-animation: spin2 1s infinite linear;
-    -moz-animation: spin2 1s infinite linear;
-    -o-animation: spin2 1s infinite linear;
-    animation: spin2 1s infinite linear;
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #fffbfb;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  border-style: solid;
+  margin: 0 auto;
+  margin: 28px -17px 85px;
+  border-radius: 50%;
+  -webkit-animation: spin2 1s infinite linear;
+  -moz-animation: spin2 1s infinite linear;
+  -o-animation: spin2 1s infinite linear;
+  animation: spin2 1s infinite linear;
 }
 #spinnerHolder {
-    text-align: center;
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-    color: FFFBFB;
-    font-family: "Rhodium";
+  text-align: center;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  color: FFFBFB;
+  font-family: "Rhodium";
 }

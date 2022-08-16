@@ -29,7 +29,7 @@ const Loader = ({}) => {
     }
   };
 
-  function MyForm() {
+  const MyForm = () => {
     const handleSubmit = (event) => {
       event.preventDefault();
       // as long as use entered address on one chain
@@ -42,7 +42,7 @@ const Loader = ({}) => {
         parent.postMessage(
           {
             pluginMessage: {
-              type: "run_app2",
+              type: "display_minting_page",
               bytes,
               name,
               desc,
@@ -96,7 +96,7 @@ const Loader = ({}) => {
         </form>
       </div>
     );
-  }
+  };
 
   return (
     <div>

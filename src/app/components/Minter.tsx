@@ -1,4 +1,3 @@
-// import fetch, { FormData, File, fileFrom } from 'node-fetch'
 import * as React from "react";
 import { useState } from "react";
 import "../styles/ui.css";
@@ -9,14 +8,21 @@ const tatumApiKey = process.env.TATUM_API_KEY;
 console.log(isTestnet);
 console.log(tatumApiKey);
 
-const Minter = ({}) => {
-  const [ipfsUrl, SetIpfsUrl] = useState("");
-  const [externalUrl, SetExternalUrl] = useState("");
-  const [isLoading, SetIsLoading] = useState(true);
-  const [isError, SetIsError] = useState(false);
-  const [errorType, SetErrorType] = useState("");
-  const [oSLink, setOSLink] = useState("https://opensea.io/");
+const tatumUploadToIpfsUrl = "https://api-eu1.tatum.io/v3/ipfs";
+const tatumMintUrl = "https://api-eu1.tatum.io/v3/nft/mint";
+const toIpfsUrl = (ipfsHash: string) => "ipfs://" + ipfsHash;
+const toIpfsHttpUrl = (ipfsHash: string) => "https://ipfs.io/ipfs/" + ipfsHash;
 
+const Minter = ({}) => {
+  // const [ipfsUrl, SetIpfsUrl] = useState("");
+  // const [ipfsHash, SetIpfsHash] = useState("");
+  const [imageUrl, SetImageUrl] = useState("");
+  // const [externalUrl, SetExternalUrl] = useState("");
+  const [isLoading, SetIsLoading] = useState(true);
+  // const [isError, SetIsError] = useState(false);
+  // const [errorType, SetErrorType] = useState("");
+  // const [oSLink, setOSLink] = useState("https://opensea.io/");
+  const [mintResult, setMintResult] = useState([]);
   const [algorand, setAlgorand] = useState({
     name: "algorand",
     explorerPrefix: isTestnet
@@ -40,85 +46,105 @@ const Minter = ({}) => {
     explorerPrefix: "https://explorer.solana.com/tx/",
   });
 
-  const [mintResult, setMintResult] = useState([]);
-
-  function Spinner() {
+  const Spinner = () => {
     return (
       <div id="spinnerHolder">
         <div id="spinner"></div>
         <h2>Minting ...</h2>
       </div>
     );
-  }
+  };
+
+  const RenderSuccess = () => {
+    return (
+      <div>
+        <h3 className="v2_26">NFT MINTED ✅</h3>
+        <ul className="fullclick">
+          <li key="uniqueId1">
+            <form target="_blank">
+              <button id="result_ipfs" formAction={imageUrl}>
+                💾 See your image stored on IPFS
+              </button>
+            </form>
+          </li>
+          <li key="uniqueId2">
+            <form target="_blank">{mintResult}</form>
+          </li>
+        </ul>
+      </div>
+    );
+  };
+
+  //   const RenderError = () => {
+  //     return (
+  //       <div>
+  //         <div>
+  //           <h3 className="v2_26">Oups it seems that it's not working... </h3>
+  //         </div>
+  //         <div>
+  //           <span id="result_error">Error: {errorType}</span>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
 
   window.onmessage = (event) => {
     const { type, bytes, name, desc, addresses } = event.data.pluginMessage;
     if (type === "run") {
-      async function uploadImage() {
-        var url = "https://api-eu1.tatum.io/v3/ipfs";
-        const formData = new FormData();
-        formData.append("file", new Blob([bytes]));
-
-        const result = await fetch(url, {
+      const fetchTatum = (data) => {
+        return fetch(tatumUploadToIpfsUrl, {
           method: "POST",
           headers: {
             "x-api-key": tatumApiKey,
           },
-          body: formData,
-        }).then((response) => {
+          body: data,
+        });
+      };
+      const uploadImage = async () => {
+        const formData = new FormData();
+        formData.append("file", new Blob([bytes]));
+        return await fetchTatum(formData).then((response) => {
           return response
             .json()
-            .then(function (json) {
-              const ipfsHash = json.ipfsHash;
-              console.log("IPFS url: ", "https://ipfs.io/ipfs/" + ipfsHash);
-              SetIpfsUrl("ipfs://" + ipfsHash);
-              return "ipfs://" + ipfsHash;
+            .then((json) => {
+              const hash = json.ipfsHash;
+              console.log("IPFS http url: ", toIpfsHttpUrl(hash));
+              SetImageUrl(toIpfsHttpUrl(hash));
+              // SetIpfsHash(hash)
+              return hash;
             })
             .catch((error) => {
               throw error;
             });
         });
-        return result;
-      }
+      };
 
-      async function uploadMeta(ipfs_url) {
-        var url = "https://api-eu1.tatum.io/v3/ipfs";
+      const uploadMeta = async (imageIpfsHash: string) => {
         const data_up = JSON.stringify({
           name: name,
           description: desc,
-          image: ipfs_url,
+          image: toIpfsUrl(imageIpfsHash),
         });
         const formData = new FormData();
         formData.append("file", new Blob([data_up]));
-
-        const result_up = await fetch(url, {
-          method: "POST",
-          headers: {
-            "x-api-key": tatumApiKey,
-          },
-          body: formData,
-        }).then((response) => {
+        return await fetchTatum(formData).then((response) => {
           return response
             .json()
-            .then(function (json) {
-              const ipfsHash = json.ipfsHash;
-              console.log(
-                "metadata IPFS url: ",
-                "https://ipfs.io/ipfs/" + ipfsHash
-              );
-              return "ipfs://" + ipfsHash;
+            .then((json) => {
+              const hash = json.ipfsHash;
+              console.log("metadata IPFS url: " + toIpfsHttpUrl(hash));
+              return hash;
             })
             .catch((error) => {
               throw error;
             });
         });
-        return result_up;
-      }
+      };
 
-      async function callTatum(data) {
+      const callTatumToMint = async (data) => {
         let txId = "";
         let error = "";
-        const response = await fetch("https://api-eu1.tatum.io/v3/nft/mint", {
+        const response = await fetch(tatumMintUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -126,18 +152,16 @@ const Minter = ({}) => {
           },
           body: data,
         });
-
         const json = await response.json();
-
         if (response.status !== 200) {
           error = json.message;
         } else {
           txId = json.txId;
         }
         return { txId, error };
-      }
+      };
 
-      function generateResult(chain, txId, error) {
+      const generateResult = (chain, txId, error) => {
         if (txId) {
           let explorerUrl = chain.explorerPrefix + txId;
           if (isTestnet && chain.name === "solana") {
@@ -145,7 +169,7 @@ const Minter = ({}) => {
           }
           console.log(explorerUrl);
           return (
-            <button className="result_etherscan" formAction={explorerUrl}>
+            <button className={chain.name} formAction={explorerUrl}>
               📊 See your transaction on {chain.name} explorer
             </button>
           );
@@ -162,16 +186,15 @@ const Minter = ({}) => {
             </span>
           );
         }
-      }
+      };
 
-      async function mintWithMeta(metadata, ipfs_url) {
-        // const mintData = []
+      const mintWithMeta = async (metaIpfsHash, imageIpfsHash) => {
         if (addresses.algorand !== "") {
-          const { txId, error } = await callTatum(
+          const { txId, error } = await callTatumToMint(
             JSON.stringify({
               chain: "ALGO",
               to: addresses.algorand,
-              url: metadata,
+              url: toIpfsUrl(metaIpfsHash),
               name: name,
             })
           );
@@ -180,11 +203,11 @@ const Minter = ({}) => {
           setMintResult((prev) => [...prev, result]);
         }
         if (addresses.celo !== "") {
-          const { txId, error } = await callTatum(
+          const { txId, error } = await callTatumToMint(
             JSON.stringify({
               chain: "CELO",
               to: addresses.celo,
-              url: metadata,
+              url: toIpfsUrl(metaIpfsHash),
               feeCurrency: "CELO",
             })
           );
@@ -193,11 +216,11 @@ const Minter = ({}) => {
           setMintResult((prev) => [...prev, result]);
         }
         if (addresses.harmony !== "") {
-          const { txId, error } = await callTatum(
+          const { txId, error } = await callTatumToMint(
             JSON.stringify({
               chain: "ONE",
               to: addresses.harmony,
-              url: metadata,
+              url: toIpfsUrl(metaIpfsHash),
             })
           );
           setHarmony((prev) => ({ ...prev, txId: txId, error: error }));
@@ -205,16 +228,16 @@ const Minter = ({}) => {
           setMintResult((prev) => [...prev, result]);
         }
         if (addresses.solana !== "") {
-          const { txId, error } = await callTatum(
+          const { txId, error } = await callTatumToMint(
             JSON.stringify({
               chain: "SOL",
               to: addresses.solana,
-              url: metadata,
+              url: toIpfsUrl(metaIpfsHash),
               metadata: {
                 name: name + " " + desc,
                 symbol: name,
                 sellerFeeBasisPoints: 0,
-                uri: ipfs_url,
+                uri: toIpfsUrl(imageIpfsHash),
               },
             })
           );
@@ -223,59 +246,19 @@ const Minter = ({}) => {
           setMintResult((prev) => [...prev, result]);
         }
         SetIsLoading(false);
-      }
+      };
 
-      async function run() {
-        const ipfs_url = await uploadImage();
-        const meta_url = await uploadMeta(ipfs_url);
-        await mintWithMeta(meta_url, ipfs_url);
+      const run = async () => {
+        const imageIpfsHash = await uploadImage();
+        const metaIpfsHash = await uploadMeta(imageIpfsHash);
+        await mintWithMeta(metaIpfsHash, imageIpfsHash);
         // setTimeout(() => {
         //   fetch_id(tx_hash);
         // }, 15000);
-      }
+      };
       run();
     }
   };
-
-  function RenderSuccess() {
-    return (
-      <div>
-        <h3 className="v2_26">NFT MINTED ✅</h3>
-        <ul className="fullclick">
-          <li key="uniqueId1">
-            <form target="_blank">
-              <button id="result_ipfs" formAction={ipfsUrl}>
-                💾 See your image stored on IPFS
-              </button>
-            </form>
-          </li>
-          <li key="uniqueId2">
-            <form target="_blank">
-              {mintResult}
-              {/* {/* <button id="result_etherscan" formAction={externalUrl}>
-                📊 See your transaction on polygonscan
-              </button> */}
-              {/* {results()}
-              {results.length} */}
-            </form>
-          </li>
-        </ul>
-      </div>
-    );
-  }
-
-  //   function RenderError() {
-  //     return (
-  //       <div>
-  //         <div>
-  //           <h3 className="v2_26">Oups it seems that it's not working... </h3>
-  //         </div>
-  //         <div>
-  //           <span id="result_error">Error: {errorType}</span>
-  //         </div>
-  //       </div>
-  //     );
-  //   }
 
   return (
     <div>
